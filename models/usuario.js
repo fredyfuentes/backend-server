@@ -14,8 +14,8 @@ var usuarioSchema = new Schema({
     password: { type: String, required: [true, 'La contraseña es necesaria'] },
     img: { type: String, required: false },
     rol: { type: String, required: true, default: 'USER_ROLE', enum: rolesValidos }
-});
+}, { collection: 'usuarios' });
 
 usuarioSchema.plugin(uniqueValidator, { message: '{PATH} debe de ser unico' })
 
-module.exports = moongose.model('usuario', usuarioSchema);
+module.exports = moongose.model('Usuario', usuarioSchema);
