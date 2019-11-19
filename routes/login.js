@@ -17,6 +17,7 @@ const client = new OAuth2Client(CLIENT_ID);
 var app = express();
 
 var Usuario = require('../models/usuario');
+var mdAutenticacion = require('../middlewares/autenticacion');
 
 // ========================================================
 // Login Normal
@@ -143,6 +144,21 @@ app.post('/google', async(req, res) => {
 });
 // ========================================================
 // Final Login Google
+// ========================================================
+
+// ========================================================
+// Renueva Token
+// ========================================================
+app.get('/renuevaToken', mdAutenticacion.VerificaToken, (req, res) => {
+    var token = jwt.sign({ usuario: req.usuario }, SEED, { expiresIn: 14400 }); // 4 Horas
+    res.status(200).json({
+        ok: true,
+        usuario: req.usuario,
+        token: token
+    })
+});
+// ========================================================
+// Final Renueva Token
 // ========================================================
 
 function obtenerMenu(ROL) {
